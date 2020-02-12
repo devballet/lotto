@@ -1,11 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:lotto/core/popup.dart';
 import 'package:lotto/core/popup_content.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 //int tokenCount = 0;
 
 class CoreLibrary{
   static int tokenCount = 0;
+
+
+ /*--------------------------
+  // name : HistoryRead
+  // title : 히스토리 읽기
+  // desc : 
+  ---------------------------*/
+  Future HistoryRead() async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      return await File(dir.path + '/LottoHistory.txt').readAsString();
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  /*--------------------------
+  // name : HistoryhWrite
+  // title : 히스토리
+  // desc : 
+  ---------------------------*/
+  Future HistoryhWrite(String value) async {
+    final dir = await getApplicationDocumentsDirectory();
+    return File(dir.path + '/LottoHistory.txt').writeAsString(value.toString());
+  }
+
+    //// 등수별 결과 display 리턴
+  String gradeDislpay(String count, String gradePer, String gradePerson) {
+    String gradeDisplay = count +
+        "개 당첨 (" +
+        gradePerson +
+        "개 중1)(" +
+        gradePer.substring(0, 15) +
+        ")";
+    return gradeDisplay;
+  }
+
+}
+
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
 
 Future<Object> showPopup(BuildContext context, Widget widget, String title,
@@ -70,6 +121,38 @@ Future<void> ShowMessageBox(
     },
   );
 }
+
+enum ConfirmAction { CANCEL, ACCEPT }
+
+Future<ConfirmAction> ShowMessageBoxWithConfirm(
+    BuildContext context, String title, String message) async {
+  return showDialog<ConfirmAction>(
+    context: context,
+    barrierDismissible: false, // user must tap button for close dialog!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('취소'),
+            onPressed: () {
+              Navigator.of(context).pop(ConfirmAction.CANCEL);
+            },
+          ),
+          FlatButton(
+            child: const Text('확인'),
+            onPressed: () {
+              Navigator.of(context).pop(ConfirmAction.ACCEPT);
+            },
+          )
+        ],
+      );
+    },
+  );
+}
+
+
 
 
 class DisplayLevel2TextControl extends StatelessWidget {
@@ -202,4 +285,24 @@ class _ModalRoundedProgressBarState extends State<ModalRoundedProgressBar> {
 class ProgressBarHandler {
   Function show; //show is the name of member..can be what you want...
   Function dismiss;
+}
+
+bool adMopInit = false;
+
+////애드몹 배너 광고 ID를 반환
+String getRewardAdUnitId() {
+  if (Platform.isIOS) {
+    return "";
+  } else if (Platform.isAndroid) {
+    return "ca-app-pub-3329438313492975/7647348477";
+  }
+}
+
+//애드몹 어플 ID를 반환
+String getAdmobAppId() {
+  if (Platform.isIOS) {
+    return "";
+  } else if (Platform.isAndroid) {
+    return "ca-app-pub-3329438313492975~9851388724";
+  }
 }

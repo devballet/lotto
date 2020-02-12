@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/gestures.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:lotto/core/coreLibrary.dart';
+import 'package:lotto/core/widgets.dart';
 import 'package:lotto/datatable/resultDataDTO.dart';
 
 import 'dart:math' as math;
@@ -45,7 +46,7 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                           ),
                           Icon(
                             Icons.check_circle,
-                            color: Colors.teal,
+                            color: Colors.orange.shade800,
                           ),
                           SizedBox(
                             width: 10,
@@ -53,7 +54,7 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                           Text(
                             '개수 선택',
                             style: TextStyle(
-                              color: Colors.teal,
+                              color: Colors.orange.shade800,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -82,26 +83,35 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          RaisedButton(
-                            child: Text("계산하기"),
-                            onPressed: () {
-                              if (ordrcnt == null || ordrcnt.length == 0) {
-                                ShowMessageBox(context, "확인", "개수를 입력해 주세요");
-                                return;
-                              }
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SimpleOutlineButton(
+                                buttonText: "계산하기",
+                                isTokenIconVisible: false,
+                                onPressed: () {
+                                  if (ordrcnt == null || ordrcnt.length == 0) {
+                                    ShowMessageBox(
+                                        context, "확인", "개수를 입력해 주세요");
+                                    return;
+                                  }
 
-                              if ( double.parse(ordrcnt) > 1000000) //100만 보다 크면
-                              {
-                                ShowMessageBox(context, "확인", "100만 보다 작은수로 입력해 주세요.");
-                                return;
-                              }
+                                  if (double.parse(ordrcnt) >
+                                      1000000) //100만 보다 크면
+                                  {
+                                    ShowMessageBox(
+                                        context, "확인", "100만 보다 작은수로 입력해 주세요.");
+                                    return;
+                                  }
 
-                              resultData.resultState = ResultState.yes;
-                              resultData.resultString = "resultCount";
-                              resultData.resultObject = ordrcnt;
-                              Navigator.pop<ResultData>(
-                                  context, resultData); //close the popup
-                            },
+                                  resultData.resultState = ResultState.yes;
+                                  resultData.resultString = "resultCount";
+                                  resultData.resultObject = ordrcnt;
+                                  Navigator.pop<ResultData>(
+                                      context, resultData); //close the popup
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       )
@@ -124,7 +134,7 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                           ),
                           Icon(
                             Icons.check_circle,
-                            color: Colors.teal,
+                            color: Colors.orange.shade800,
                           ),
                           SizedBox(
                             width: 10,
@@ -132,7 +142,7 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                           Text(
                             '결과 바로계산',
                             style: TextStyle(
-                              color: Colors.teal,
+                              color: Colors.orange.shade800,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -142,43 +152,71 @@ Widget FastCalcPopup(BuildContext context, ResultData inputData) {
                         height: 10,
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        //mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          RaisedButton(
-                            child: Text("3등 결과보기"),
-                            onPressed: () {
-                              resultData.resultState = ResultState.yes;
-                              resultData.resultString = "resultGrade";
-                              resultData.resultObject = "3";
-                              Navigator.pop<ResultData>(
-                                  context, resultData); //close the popup
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SimpleOutlineButton(
+                                buttonText: "3등 결과보기",
+                                isTokenIconVisible: false,
+                                onPressed: () {
+                                  resultData.resultState = ResultState.yes;
+                                  resultData.resultString = "resultGrade";
+                                  resultData.resultObject = "3";
+                                  Navigator.pop<ResultData>(
+                                      context, resultData); //close the popup
+                                },
+                              ),
+                            ],
                           ),
-                          RaisedButton(
-                            child: Text("2등 결과보기"),
-                            onPressed: () {
-                              resultData.resultState = ResultState.yes;
-                              resultData.resultString = "resultGrade";
-                              resultData.resultObject = "2";
-                              Navigator.pop<ResultData>(
-                                  context, resultData); //close the popup
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SimpleOutlineButton(
+                                buttonText: "2등 결과보기",
+                                isTokenIconVisible: false,
+                                onPressed: () {
+                                  resultData.resultState = ResultState.yes;
+                                  resultData.resultString = "resultGrade";
+                                  resultData.resultObject = "2";
+                                  Navigator.pop<ResultData>(
+                                      context, resultData); //close the popup
+                                },
+                              ),
+                            ],
                           ),
-                          RaisedButton(
-                            child: Text("1등 결과보기"),
-                            onPressed: () {
-                              resultData.resultState = ResultState.yes;
-                              resultData.resultString = "resultGrade";
-                              resultData.resultObject = "1";
-                              Navigator.pop<ResultData>(
-                                  context, resultData); //close the popup
-                            },
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SimpleOutlineButton(
+                                buttonText: "1등 결과보기",
+                                isTokenIconVisible: false,
+                                onPressed: () {
+                                  resultData.resultState = ResultState.yes;
+                                  resultData.resultString = "resultGrade";
+                                  resultData.resultObject = "1";
+                                  Navigator.pop<ResultData>(
+                                      context, resultData); //close the popup
+                                },
+                              ),
+                            ],
                           ),
+
+                          // RaisedButton(
+                          //   child: Text("1등 결과보기"),
+                          //   onPressed: () {
+                          //     resultData.resultState = ResultState.yes;
+                          //     resultData.resultString = "resultGrade";
+                          //     resultData.resultObject = "1";
+                          //     Navigator.pop<ResultData>(
+                          //         context, resultData); //close the popup
+                          //   },
+                          // ),
                         ],
                       )
                     ],
                   )),
-              
             ],
           ),
         ),
